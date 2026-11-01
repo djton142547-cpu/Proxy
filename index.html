@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>VAIPERX PROXY MENU</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+.stage {
+    position: relative;
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 1;
+}
+
+/* พื้นที่ปุ่มโปร่งใส */
+.hit {
+    position: absolute;
+    z-index: 5;
+    display: block;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* LINK APP PROXY PIN */
+.app {
+    left: 16.5%;
+    top: 48.4%;
+    width: 67%;
+    height: 5.8%;
+}
+
+/* COPY ID */
+.ip {
+    left: 13%;
+    top: 59.7%;
+    width: 74%;
+    height: 6.5%;
+}
+
+/* COPY PORT */
+.port {
+    left: 13%;
+    top: 67.5%;
+    width: 74%;
+    height: 6.5%;
+}
+
+/* TUTORIAL */
+.tutorial {
+    left: 13%;
+    top: 75.2%;
+    width: 74%;
+    height: 7.7%;
+}
+
+/* แจ้งเตือน */
+.toast {
+    position: absolute;
+    z-index: 20;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15,0,0,.95);
+    border: 1px solid #ff1717;
+    box-shadow: 0 0 15px red;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity .2s;
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stage">
+
+    <!-- ภาพต้นฉบับ -->
+    <img class="bg"
+    src="https://i.postimg.cc/Z5327C7H/C225AFF9-383D-463D-A1AA-BF03835FE8D5.png"
+    alt="VAIPERX PROXY MENU">
+
+    <!-- LINK APP -->
+    <button class="hit app"
+    aria-label="เปิดแอป Proxy Pin"
+    onclick="openLink('https://apps.apple.com/th/app/proxypin-%E0%B8%88-%E0%B8%9A%E0%B8%97%E0%B8%A3%E0%B8%B2%E0%B8%9F%E0%B8%9F-%E0%B8%81-http-s/id6450932949?l=th')">
+    </button>
+
+    <!-- COPY IP -->
+    <button class="hit ip"
+    aria-label="คัดลอก IP"
+    onclick="copyData('154.197.69.87','คัดลอก IP สำเร็จ')">
+    </button>
+
+    <!-- COPY PORT -->
+    <button class="hit port"
+    aria-label="คัดลอก PORT"
+    onclick="copyData('1297','คัดลอก PORT สำเร็จ')">
+    </button>
+
+    <!-- TUTORIAL -->
+    <button class="hit tutorial"
+    aria-label="ดูคลิปสอนติดตั้ง"
+    onclick="openLink('https://youtu.be/eksM6Sb66-Q?si=EFjNIB472VLbBgba')">
+    </button>
+
+    <div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+function openLink(url) {
+    window.open(url, '_blank');
+}
+
+async function copyData(value, message) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(value);
+        } else {
+            const area = document.createElement('textarea');
+            area.value = value;
+            area.style.position = 'fixed';
+            area.style.opacity = '0';
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand('copy');
+            area.remove();
+        }
+
+        showToast('✓ ' + message);
+
+    } catch (e) {
+        showToast('ไม่สามารถคัดลอกได้');
+    }
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 1800);
+}
+</script>
+
+</body>
+</html>
